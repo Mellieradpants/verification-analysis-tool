@@ -9,502 +9,565 @@
       font-family: Arial, sans-serif;
       background: #f5f6f8;
       color: #1a1a1a;
-      max-width: 900px;
+      max-width: 980px;
       margin: auto;
       padding: 30px;
+      line-height: 1.45;
     }
 
-    h1 {
+    h1, h2 {
       color: #0f2a44;
+      margin-top: 0;
     }
 
-    h2 {
+    .headerBox {
+      border: 2px solid #caa64b;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+
+    .subtitle {
+      margin: 8px 0 0 0;
+      color: #374151;
+      font-size: 16px;
+    }
+
+    .panel {
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
       color: #0f2a44;
-      margin-top: 30px;
     }
 
     textarea {
       width: 100%;
-      height: 100px;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      min-height: 140px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      box-sizing: border-box;
+      font: inherit;
+      resize: vertical;
+      background: #ffffff;
+      color: #111827;
+    }
+
+    .buttonRow {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     button {
-      margin-top: 10px;
-      padding: 8px 14px;
-      border-radius: 6px;
+      padding: 9px 14px;
+      border-radius: 8px;
       border: none;
-      background: #0f2a44;
-      color: white;
       cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
     }
 
-    button:hover {
+    .primaryBtn {
+      background: #0f2a44;
+      color: #ffffff;
+    }
+
+    .primaryBtn:hover {
       background: #173a5c;
     }
 
-    .signal {
-      background: white;
-      border-left: 5px solid #caa64b;
+    .secondaryBtn {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .secondaryBtn:hover {
+      background: #d1d5db;
+    }
+
+    .helperText {
+      color: #4b5563;
+      margin: 0 0 10px 0;
+    }
+
+    .resultBox {
+      border: 2px solid #0f2a44;
+      border-radius: 10px;
       padding: 14px;
-      margin-top: 14px;
-      border-radius: 6px;
+      background: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .plainMeaningBox {
+      border-left: 6px solid #caa64b;
+    }
+
+    .signals {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .signal {
+      background: #fafafa;
+      border: 2px solid #0f2a44;
+      border-radius: 10px;
+      padding: 14px;
     }
 
     .signal h3 {
       margin: 0;
       color: #0f2a44;
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
+      font-size: 16px;
+      font-weight: 700;
     }
 
     .scopeMeaning {
-      font-size: 12px;
-      color: #6b7280;
-      margin-top: 4px;
-      margin-bottom: 8px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid #ddd;
+      font-size: 13px;
+      color: #555;
+      margin-top: 6px;
+      margin-bottom: 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #caa64b;
     }
 
     .signalValue {
-      margin-top: 8px;
+      margin-top: 10px;
       font-size: 15px;
       font-weight: 600;
-      color: #1a1a1a;
+      color: #111827;
+    }
+
+    .emptyState {
+      color: #6b7280;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .sectionTitle {
+      margin-bottom: 6px;
     }
   </style>
 </head>
 <body>
-  <main class="page">
+  <div class="headerBox">
     <h1>MeaningBuddy</h1>
-    <p class="subtitle">
-      Turn formal, abstract, or legal wording into plain meaning.
-    </p>
+    <p class="subtitle">Turn formal, abstract, or legal wording into plain meaning.</p>
+  </div>
 
-    <section class="panel">
-      <label for="inputText">Paste Text</label>
-      <textarea id="inputText" placeholder="Paste a sentence, paragraph, legal notice, policy text, or formal wording here..."></textarea>
+  <div class="panel">
+    <label for="inputText">Paste Text</label>
+    <textarea id="inputText" placeholder="Paste a sentence, paragraph, legal notice, policy text, or formal wording here..."></textarea>
 
-      <div class="button-row">
-        <button class="primary" id="analyzeBtn">Analyze Language</button>
-        <button class="secondary" id="clearBtn">Clear</button>
-      </div>
-    </section>
+    <div class="buttonRow">
+      <button id="analyzeBtn" class="primaryBtn">Analyze Language</button>
+      <button id="clearBtn" class="secondaryBtn">Clear</button>
+    </div>
+  </div>
 
-    <section class="panel">
-      <h2>Plain Meaning</h2>
-      <p class="helper">What the text is saying in direct language.</p>
-      <div id="plainMeaning" class="resultBox empty">The explanation will appear here.</div>
+  <div class="panel">
+    <h2 class="sectionTitle">Plain Meaning</h2>
+    <p class="helperText">What the text is saying in direct language.</p>
+    <div id="plainMeaning" class="resultBox plainMeaningBox">
+      <span class="emptyState">The explanation will appear here.</span>
+    </div>
 
-      <h2>Language Signals</h2>
-      <p class="helper">The parts of the sentence that control how the wording works.</p>
+    <h2 class="sectionTitle">Language Signals</h2>
+    <p class="helperText">The parts of the sentence that control how the wording works.</p>
 
-      <div class="signals">
-        <div class="signal">
-          <h3>Actor / Authority</h3>
-          <p class="scopeMeaning">Who has the power or responsibility in the sentence.</p>
-          <p id="actorResult" class="signalValue empty">No signal yet.</p>
-        </div>
+    <div id="signalsContainer" class="signals"></div>
 
-        <div class="signal">
-          <h3>Rule Strength</h3>
-          <p class="scopeMeaning">Whether the action is required, optional, or recommended.</p>
-          <p id="ruleStrengthResult" class="signalValue empty">No signal yet.</p>
-        </div>
-
-        <div class="signal">
-          <h3>Scope</h3>
-          <p class="scopeMeaning">Who or what the rule applies to.</p>
-          <p id="scopeResult" class="signalValue empty">No signal yet.</p>
-        </div>
-
-        <div class="signal">
-          <h3>Action</h3>
-          <p class="scopeMeaning">What action the text is describing.</p>
-          <p id="actionResult" class="signalValue empty">No signal yet.</p>
-        </div>
-
-        <div class="signal">
-          <h3>Timing / Standard</h3>
-          <p class="scopeMeaning">The deadline, threshold, or level of flexibility.</p>
-          <p id="timingResult" class="signalValue empty">No signal yet.</p>
-        </div>
-
-        <div class="signal">
-          <h3>Vague / Flexible Language</h3>
-          <p class="scopeMeaning">Words that leave room for interpretation or discretion.</p>
-          <p id="vagueResult" class="signalValue empty">No signal yet.</p>
-        </div>
-      </div>
-
-      <h2>Operational Effect</h2>
-      <p class="helper">What this wording means in practice.</p>
-      <div id="effectResult" class="resultBox empty">Operational effect will appear here.</div>
-    </section>
-  </main>
+    <h2 class="sectionTitle">Operational Effect</h2>
+    <p class="helperText">What this wording means in practice.</p>
+    <div id="effectResult" class="resultBox">
+      <span class="emptyState">Operational effect will appear here.</span>
+    </div>
+  </div>
 
   <script>
-const inputText = document.getElementById("inputText");
-const analyzeBtn = document.getElementById("analyzeBtn");
-const clearBtn = document.getElementById("clearBtn");
+    const inputText = document.getElementById("inputText");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const plainMeaning = document.getElementById("plainMeaning");
+    const signalsContainer = document.getElementById("signalsContainer");
+    const effectResult = document.getElementById("effectResult");
 
-const plainMeaning = document.getElementById("plainMeaning");
-const effectResult = document.getElementById("effectResult");
-
-const signalsContainer = document.querySelector(".signals");
-
-function setText(target, text) {
-  target.textContent = text;
-  target.classList.remove("empty");
-}
-
-function resetText(target, text) {
-  target.textContent = text;
-  target.classList.add("empty");
-}
-
-function makeSignalCard(title, meaning, value) {
-  const card = document.createElement("div");
-  card.className = "signal";
-
-  const h3 = document.createElement("h3");
-  h3.textContent = title;
-
-  const pMeaning = document.createElement("p");
-  pMeaning.className = "scopeMeaning";
-  pMeaning.textContent = meaning;
-
-  const pValue = document.createElement("p");
-  pValue.className = "signalValue";
-  pValue.textContent = value;
-
-  card.appendChild(h3);
-  card.appendChild(pMeaning);
-  card.appendChild(pValue);
-
-  return card;
-}
-
-function clearSignalCards() {
-  signalsContainer.innerHTML = "";
-}
-
-function detectSignals(text) {
-  const lower = text.toLowerCase();
-  const detected = [];
-
-  if (lower.includes("agency")) {
-    detected.push({
-      key: "actor",
-      title: "Actor / Authority",
-      meaning: "Who has the power or responsibility in the sentence.",
-      value: "agency"
-    });
-  } else if (lower.includes("court")) {
-    detected.push({
-      key: "actor",
-      title: "Actor / Authority",
-      meaning: "Who has the power or responsibility in the sentence.",
-      value: "court"
-    });
-  } else if (lower.includes("judge")) {
-    detected.push({
-      key: "actor",
-      title: "Actor / Authority",
-      meaning: "Who has the power or responsibility in the sentence.",
-      value: "judge"
-    });
-  } else if (lower.includes("department")) {
-    detected.push({
-      key: "actor",
-      title: "Actor / Authority",
-      meaning: "Who has the power or responsibility in the sentence.",
-      value: "department"
-    });
-  } else if (lower.includes("employer")) {
-    detected.push({
-      key: "actor",
-      title: "Actor / Authority",
-      meaning: "Who has the power or responsibility in the sentence.",
-      value: "employer"
-    });
-  } else if (lower.includes("company")) {
-    detected.push({
-      key: "actor",
-      title: "Actor / Authority",
-      meaning: "Who has the power or responsibility in the sentence.",
-      value: "company"
-    });
-  }
-
-  if (lower.includes("shall")) {
-    detected.push({
-      key: "rule",
-      title: "Rule Strength",
-      meaning: "Whether the action is required, optional, or recommended.",
-      value: "shall"
-    });
-  } else if (lower.includes("must")) {
-    detected.push({
-      key: "rule",
-      title: "Rule Strength",
-      meaning: "Whether the action is required, optional, or recommended.",
-      value: "must"
-    });
-  } else if (lower.includes("may")) {
-    detected.push({
-      key: "rule",
-      title: "Rule Strength",
-      meaning: "Whether the action is required, optional, or recommended.",
-      value: "may"
-    });
-  } else if (lower.includes("should")) {
-    detected.push({
-      key: "rule",
-      title: "Rule Strength",
-      meaning: "Whether the action is required, optional, or recommended.",
-      value: "should"
-    });
-  }
-
-  if (lower.includes("eligible employees")) {
-    detected.push({
-      key: "scope",
-      title: "Scope",
-      meaning: "Who or what the rule applies to.",
-      value: "eligible employees"
-    });
-  } else if (lower.includes("all employees")) {
-    detected.push({
-      key: "scope",
-      title: "Scope",
-      meaning: "Who or what the rule applies to.",
-      value: "all employees"
-    });
-  } else if (lower.includes("eligible applicants")) {
-    detected.push({
-      key: "scope",
-      title: "Scope",
-      meaning: "Who or what the rule applies to.",
-      value: "eligible applicants"
-    });
-  } else if (lower.includes("all applicants")) {
-    detected.push({
-      key: "scope",
-      title: "Scope",
-      meaning: "Who or what the rule applies to.",
-      value: "all applicants"
-    });
-  } else if (lower.includes("individuals")) {
-    detected.push({
-      key: "scope",
-      title: "Scope",
-      meaning: "Who or what the rule applies to.",
-      value: "individuals"
-    });
-  }
-
-  if (lower.includes("provide notice")) {
-    detected.push({
-      key: "action",
-      title: "Action",
-      meaning: "What action the text is describing.",
-      value: "provide notice"
-    });
-  } else if (lower.includes("appear")) {
-    detected.push({
-      key: "action",
-      title: "Action",
-      meaning: "What action the text is describing.",
-      value: "appear"
-    });
-  } else if (lower.includes("submit")) {
-    detected.push({
-      key: "action",
-      title: "Action",
-      meaning: "What action the text is describing.",
-      value: "submit"
-    });
-  } else if (lower.includes("report")) {
-    detected.push({
-      key: "action",
-      title: "Action",
-      meaning: "What action the text is describing.",
-      value: "report"
-    });
-  } else if (lower.includes("maintain")) {
-    detected.push({
-      key: "action",
-      title: "Action",
-      meaning: "What action the text is describing.",
-      value: "maintain"
-    });
-  } else if (lower.includes("notify")) {
-    detected.push({
-      key: "action",
-      title: "Action",
-      meaning: "What action the text is describing.",
-      value: "notify"
-    });
-  }
-
-  if (lower.includes("within 30 days")) {
-    detected.push({
-      key: "timing",
-      title: "Timing / Standard",
-      meaning: "The deadline, threshold, or level of flexibility.",
-      value: "within 30 days"
-    });
-  } else if (lower.includes("within 60 days")) {
-    detected.push({
-      key: "timing",
-      title: "Timing / Standard",
-      meaning: "The deadline, threshold, or level of flexibility.",
-      value: "within 60 days"
-    });
-  } else if (lower.includes("reasonable timeframe")) {
-    detected.push({
-      key: "timing",
-      title: "Timing / Standard",
-      meaning: "The deadline, threshold, or level of flexibility.",
-      value: "reasonable timeframe"
-    });
-  } else if (lower.includes("reasonable time")) {
-    detected.push({
-      key: "timing",
-      title: "Timing / Standard",
-      meaning: "The deadline, threshold, or level of flexibility.",
-      value: "reasonable time"
-    });
-  } else if (lower.includes("immediately")) {
-    detected.push({
-      key: "timing",
-      title: "Timing / Standard",
-      meaning: "The deadline, threshold, or level of flexibility.",
-      value: "immediately"
-    });
-  }
-
-  const vagueTerms = [];
-  if (lower.includes("reasonable")) vagueTerms.push("reasonable");
-  if (lower.includes("appropriate")) vagueTerms.push("appropriate");
-  if (lower.includes("as determined by")) vagueTerms.push("as determined by");
-  if (lower.includes("where applicable")) vagueTerms.push("where applicable");
-  if (lower.includes("may")) vagueTerms.push("may");
-
-  if (vagueTerms.length) {
-    detected.push({
-      key: "vague",
-      title: "Vague / Flexible Language",
-      meaning: "Words that leave room for interpretation or discretion.",
-      value: vagueTerms.join(", ")
-    });
-  }
-
-  return detected;
-}
-
-function buildPlainMeaning(signals) {
-  const map = Object.fromEntries(signals.map(s => [s.key, s.value]));
-  const parts = [];
-
-  if (map.actor) parts.push(capitalize(map.actor));
-  if (map.rule) {
-    if (map.rule === "shall" || map.rule === "must") {
-      parts.push("is required to");
-    } else if (map.rule === "may") {
-      parts.push("may");
-    } else if (map.rule === "should") {
-      parts.push("should");
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
     }
-  }
-  if (map.action) parts.push(map.action);
-  if (map.scope) parts.push("for " + map.scope);
 
-  let sentence = parts.join(" ").replace(/\s+/g, " ").trim();
+    function setBoxText(target, text) {
+      target.innerHTML = "";
+      target.textContent = text;
+    }
 
-  if (map.timing) {
-    sentence += ". Timing: " + map.timing;
-  }
+    function resetBoxText(target, text) {
+      target.innerHTML = `<span class="emptyState">${text}</span>`;
+    }
 
-  if (!sentence) {
-    return "No plain meaning generated.";
-  }
+    function makeSignalCard(title, meaning, value) {
+      const card = document.createElement("div");
+      card.className = "signal";
 
-  return sentence.endsWith(".") ? sentence : sentence + ".";
-}
+      const heading = document.createElement("h3");
+      heading.textContent = title;
 
-function buildOperationalEffect(signals) {
-  const map = Object.fromEntries(signals.map(s => [s.key, s.value]));
-  const parts = [];
+      const definition = document.createElement("p");
+      definition.className = "scopeMeaning";
+      definition.textContent = meaning;
 
-  if (map.rule === "shall" || map.rule === "must") {
-    parts.push("Creates a required action");
-  } else if (map.rule === "may") {
-    parts.push("Creates an optional action");
-  } else if (map.rule === "should") {
-    parts.push("Creates a recommended action");
-  }
+      const answer = document.createElement("div");
+      answer.className = "signalValue";
+      answer.textContent = value;
 
-  if (map.scope) {
-    parts.push("Applies to " + map.scope);
-  }
+      card.appendChild(heading);
+      card.appendChild(definition);
+      card.appendChild(answer);
 
-  if (map.timing) {
-    parts.push("Uses timing standard: " + map.timing);
-  }
+      return card;
+    }
 
-  if (map.vague) {
-    parts.push("Includes flexible wording");
-  }
+    function clearSignalCards() {
+      signalsContainer.innerHTML = "";
+    }
 
-  if (!parts.length) {
-    return "No operational effect extracted.";
-  }
+    function detectSignals(text) {
+      const lower = text.toLowerCase();
+      const detected = [];
 
-  return parts.join(". ") + ".";
-}
+      if (lower.includes("agency")) {
+        detected.push({
+          key: "actor",
+          title: "Actor / Authority",
+          meaning: "Who has the power or responsibility.",
+          value: "agency"
+        });
+      } else if (lower.includes("court")) {
+        detected.push({
+          key: "actor",
+          title: "Actor / Authority",
+          meaning: "Who has the power or responsibility.",
+          value: "court"
+        });
+      } else if (lower.includes("judge")) {
+        detected.push({
+          key: "actor",
+          title: "Actor / Authority",
+          meaning: "Who has the power or responsibility.",
+          value: "judge"
+        });
+      } else if (lower.includes("department")) {
+        detected.push({
+          key: "actor",
+          title: "Actor / Authority",
+          meaning: "Who has the power or responsibility.",
+          value: "department"
+        });
+      } else if (lower.includes("employer")) {
+        detected.push({
+          key: "actor",
+          title: "Actor / Authority",
+          meaning: "Who has the power or responsibility.",
+          value: "employer"
+        });
+      } else if (lower.includes("company")) {
+        detected.push({
+          key: "actor",
+          title: "Actor / Authority",
+          meaning: "Who has the power or responsibility.",
+          value: "company"
+        });
+      }
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+      if (lower.includes("shall")) {
+        detected.push({
+          key: "rule",
+          title: "Rule Strength",
+          meaning: "How strong the rule is.",
+          value: "shall"
+        });
+      } else if (lower.includes("must")) {
+        detected.push({
+          key: "rule",
+          title: "Rule Strength",
+          meaning: "How strong the rule is.",
+          value: "must"
+        });
+      } else if (lower.includes("may")) {
+        detected.push({
+          key: "rule",
+          title: "Rule Strength",
+          meaning: "How strong the rule is.",
+          value: "may"
+        });
+      } else if (lower.includes("should")) {
+        detected.push({
+          key: "rule",
+          title: "Rule Strength",
+          meaning: "How strong the rule is.",
+          value: "should"
+        });
+      }
 
-function analyzeLanguage() {
-  const text = inputText.value.trim();
+      if (lower.includes("eligible employees")) {
+        detected.push({
+          key: "scope",
+          title: "Scope",
+          meaning: "Who this applies to.",
+          value: "eligible employees"
+        });
+      } else if (lower.includes("all employees")) {
+        detected.push({
+          key: "scope",
+          title: "Scope",
+          meaning: "Who this applies to.",
+          value: "all employees"
+        });
+      } else if (lower.includes("eligible applicants")) {
+        detected.push({
+          key: "scope",
+          title: "Scope",
+          meaning: "Who this applies to.",
+          value: "eligible applicants"
+        });
+      } else if (lower.includes("all applicants")) {
+        detected.push({
+          key: "scope",
+          title: "Scope",
+          meaning: "Who this applies to.",
+          value: "all applicants"
+        });
+      } else if (lower.includes("individuals")) {
+        detected.push({
+          key: "scope",
+          title: "Scope",
+          meaning: "Who this applies to.",
+          value: "individuals"
+        });
+      }
 
-  if (!text) {
-    alert("Paste text first.");
-    return;
-  }
+      if (lower.includes("provide notice")) {
+        detected.push({
+          key: "action",
+          title: "Action",
+          meaning: "What the text says someone can, must, or should do.",
+          value: "provide notice"
+        });
+      } else if (lower.includes("appear")) {
+        detected.push({
+          key: "action",
+          title: "Action",
+          meaning: "What the text says someone can, must, or should do.",
+          value: "appear"
+        });
+      } else if (lower.includes("submit")) {
+        detected.push({
+          key: "action",
+          title: "Action",
+          meaning: "What the text says someone can, must, or should do.",
+          value: "submit"
+        });
+      } else if (lower.includes("report")) {
+        detected.push({
+          key: "action",
+          title: "Action",
+          meaning: "What the text says someone can, must, or should do.",
+          value: "report"
+        });
+      } else if (lower.includes("maintain")) {
+        detected.push({
+          key: "action",
+          title: "Action",
+          meaning: "What the text says someone can, must, or should do.",
+          value: "maintain"
+        });
+      } else if (lower.includes("notify")) {
+        detected.push({
+          key: "action",
+          title: "Action",
+          meaning: "What the text says someone can, must, or should do.",
+          value: "notify"
+        });
+      }
 
-  const signals = detectSignals(text);
+      if (lower.includes("within 30 days")) {
+        detected.push({
+          key: "timing",
+          title: "Timing / Standard",
+          meaning: "When it must happen, or how exact the rule is.",
+          value: "within 30 days"
+        });
+      } else if (lower.includes("within 60 days")) {
+        detected.push({
+          key: "timing",
+          title: "Timing / Standard",
+          meaning: "When it must happen, or how exact the rule is.",
+          value: "within 60 days"
+        });
+      } else if (lower.includes("reasonable timeframe")) {
+        detected.push({
+          key: "timing",
+          title: "Timing / Standard",
+          meaning: "When it must happen, or how exact the rule is.",
+          value: "reasonable timeframe"
+        });
+      } else if (lower.includes("reasonable time")) {
+        detected.push({
+          key: "timing",
+          title: "Timing / Standard",
+          meaning: "When it must happen, or how exact the rule is.",
+          value: "reasonable time"
+        });
+      } else if (lower.includes("immediately")) {
+        detected.push({
+          key: "timing",
+          title: "Timing / Standard",
+          meaning: "When it must happen, or how exact the rule is.",
+          value: "immediately"
+        });
+      }
 
-  clearSignalCards();
+      const vagueTerms = [];
+      if (lower.includes("reasonable")) vagueTerms.push("reasonable");
+      if (lower.includes("appropriate")) vagueTerms.push("appropriate");
+      if (lower.includes("as determined by")) vagueTerms.push("as determined by");
+      if (lower.includes("where applicable")) vagueTerms.push("where applicable");
+      if (lower.includes("may")) vagueTerms.push("may");
 
-  signals.forEach(signal => {
-    const card = makeSignalCard(signal.title, signal.meaning, signal.value);
-    signalsContainer.appendChild(card);
-  });
+      if (vagueTerms.length) {
+        detected.push({
+          key: "vague",
+          title: "Vague / Flexible Language",
+          meaning: "Words that leave room for interpretation.",
+          value: vagueTerms.join(", ")
+        });
+      }
 
-  setText(plainMeaning, buildPlainMeaning(signals));
-  setText(effectResult, buildOperationalEffect(signals));
-}
+      return detected;
+    }
 
-function clearResults() {
-  inputText.value = "";
-  resetText(plainMeaning, "The explanation will appear here.");
-  resetText(effectResult, "Operational effect will appear here.");
-  clearSignalCards();
-}
+    function buildPlainMeaning(signals) {
+      const map = Object.fromEntries(signals.map(signal => [signal.key, signal.value]));
+      const parts = [];
 
-analyzeBtn.addEventListener("click", analyzeLanguage);
-clearBtn.addEventListener("click", clearResults)
-    
-    
+      if (map.actor) parts.push(capitalize(map.actor));
+
+      if (map.rule) {
+        if (map.rule === "shall" || map.rule === "must") {
+          parts.push("must");
+        } else if (map.rule === "may") {
+          parts.push("can");
+        } else if (map.rule === "should") {
+          parts.push("should");
+        }
+      }
+
+      if (map.action) {
+        if (map.action === "provide notice") {
+          parts.push("notify");
+        } else {
+          parts.push(map.action);
+        }
+      }
+
+      if (map.scope) {
+        parts.push(map.scope);
+      }
+
+      let sentence = parts.join(" ").replace(/\s+/g, " ").trim();
+
+      if (map.timing === "reasonable timeframe" || map.timing === "reasonable time") {
+        sentence += ". The timing is not exact";
+      } else if (map.timing) {
+        sentence += ". Timing: " + map.timing;
+      }
+
+      if (!sentence) {
+        return "No plain meaning generated.";
+      }
+
+      sentence = sentence.trim();
+      if (!sentence.endsWith(".")) sentence += ".";
+
+      return sentence;
+    }
+
+    function buildOperationalEffect(signals) {
+      const map = Object.fromEntries(signals.map(signal => [signal.key, signal.value]));
+      const parts = [];
+
+      if (map.rule === "shall" || map.rule === "must") {
+        parts.push("This creates a required action");
+      } else if (map.rule === "may") {
+        parts.push("This creates an optional action");
+      } else if (map.rule === "should") {
+        parts.push("This creates a recommended action");
+      }
+
+      if (map.scope) {
+        parts.push("It applies to " + map.scope);
+      }
+
+      if (map.timing === "reasonable timeframe" || map.timing === "reasonable time") {
+        parts.push("The timing is flexible");
+      } else if (map.timing) {
+        parts.push("The timing standard is " + map.timing);
+      }
+
+      if (map.vague) {
+        parts.push("The wording leaves room for interpretation");
+      }
+
+      if (!parts.length) {
+        return "No operational effect extracted.";
+      }
+
+      return parts.join(". ") + ".";
+    }
+
+    function analyzeLanguage() {
+      const text = inputText.value.trim();
+
+      if (!text) {
+        alert("Paste text first.");
+        return;
+      }
+
+      const signals = detectSignals(text);
+
+      clearSignalCards();
+
+      signals.forEach(signal => {
+        const card = makeSignalCard(signal.title, signal.meaning, signal.value);
+        signalsContainer.appendChild(card);
+      });
+
+      setBoxText(plainMeaning, buildPlainMeaning(signals));
+      setBoxText(effectResult, buildOperationalEffect(signals));
+    }
+
+    function clearResults() {
+      inputText.value = "";
+      resetBoxText(plainMeaning, "The explanation will appear here.");
+      resetBoxText(effectResult, "Operational effect will appear here.");
+      clearSignalCards();
+    }
+
+    analyzeBtn.addEventListener("click", analyzeLanguage);
+    clearBtn.addEventListener("click", clearResults);
   </script>
 </body>
 </html>
