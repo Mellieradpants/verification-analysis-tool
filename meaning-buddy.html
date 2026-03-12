@@ -344,7 +344,116 @@ The explanation will appear here.
       effect.innerHTML = '<div class="empty">No operational effect yet.</div>';
     });
   </script>
-</body>
+</body><script>
+const inputText = document.getElementById("inputText");
+const analyzeBtn = document.getElementById("analyzeBtn");
+const clearBtn = document.getElementById("clearBtn");
+
+const plainMeaning = document.getElementById("plainMeaning");
+const actorResult = document.getElementById("actorResult");
+const ruleStrengthResult = document.getElementById("ruleStrengthResult");
+const scopeResult = document.getElementById("scopeResult");
+const actionResult = document.getElementById("actionResult");
+const timingResult = document.getElementById("timingResult");
+const vagueResult = document.getElementById("vagueResult");
+const effectResult = document.getElementById("effectResult");
+
+function analyzeLanguage() {
+  const text = inputText.value.trim();
+  const lower = text.toLowerCase();
+
+  if (!text) {
+    alert("Paste text first.");
+    return;
+  }
+
+  let actor = "Not clearly identified.";
+  let ruleStrength = "Not clearly identified.";
+  let scope = "Not clearly identified.";
+  let action = "Not clearly identified.";
+  let timing = "No timing or standard detected.";
+  let vague = "No obvious flexible wording detected.";
+  let plain = "Plain meaning not generated yet.";
+  let effect = "Operational effect not clear yet.";
+
+  if (lower.includes("agency")) actor = "The agency has the authority or responsibility.";
+  else if (lower.includes("court")) actor = "The court has the authority or responsibility.";
+  else if (lower.includes("company")) actor = "The company has the authority or responsibility.";
+  else if (lower.includes("employer")) actor = "The employer has the authority or responsibility.";
+
+  if (lower.includes("shall") || lower.includes("must")) {
+    ruleStrength = "The action is required.";
+  } else if (lower.includes("may") || lower.includes("can")) {
+    ruleStrength = "The action is optional.";
+  } else if (lower.includes("should")) {
+    ruleStrength = "The action is recommended.";
+  }
+
+  if (lower.includes("all employees")) {
+    scope = "This applies to all employees.";
+  } else if (lower.includes("eligible employees")) {
+    scope = "This applies only to eligible employees.";
+  } else if (lower.includes("individuals")) {
+    scope = "This applies to the individuals named in the text.";
+  }
+
+  if (lower.includes("provide notice")) {
+    action = "The action is to provide notice.";
+  } else if (lower.includes("appear")) {
+    action = "The action is to appear.";
+  } else if (lower.includes("submit")) {
+    action = "The action is to submit something.";
+  } else if (lower.includes("report")) {
+    action = "The action is to report information.";
+  }
+
+  if (lower.includes("within 30 days")) {
+    timing = "There is a fixed 30-day deadline.";
+  } else if (lower.includes("reasonable timeframe")) {
+    timing = "The timing is flexible, not fixed.";
+  } else if (lower.includes("immediately")) {
+    timing = "The action must happen right away.";
+  }
+
+  const vagueTerms = [];
+  if (lower.includes("reasonable")) vagueTerms.push("reasonable");
+  if (lower.includes("appropriate")) vagueTerms.push("appropriate");
+  if (lower.includes("as determined by")) vagueTerms.push("as determined by");
+  if (lower.includes("where applicable")) vagueTerms.push("where applicable");
+  if (lower.includes("may")) vagueTerms.push("may");
+
+  if (vagueTerms.length) {
+    vague = "Flexible or vague wording detected: " + vagueTerms.join(", ") + ".";
+  }
+
+  plain = "This text sets out who can act, how strong the rule is, who it applies to, and whether the timing is fixed or flexible.";
+  effect = "This wording affects who has power, who is covered, and how strictly the action must happen.";
+
+  plainMeaning.textContent = plain;
+  actorResult.textContent = actor;
+  ruleStrengthResult.textContent = ruleStrength;
+  scopeResult.textContent = scope;
+  actionResult.textContent = action;
+  timingResult.textContent = timing;
+  vagueResult.textContent = vague;
+  effectResult.textContent = effect;
+}
+
+function clearResults() {
+  inputText.value = "";
+  plainMeaning.textContent = "The explanation will appear here.";
+  actorResult.textContent = "";
+  ruleStrengthResult.textContent = "";
+  scopeResult.textContent = "";
+  actionResult.textContent = "";
+  timingResult.textContent = "";
+  vagueResult.textContent = "";
+  effectResult.textContent = "";
+}
+
+analyzeBtn.addEventListener("click", analyzeLanguage);
+clearBtn.addEventListener("click", clearResults);
+</script>
 </html>
 <script>
 
