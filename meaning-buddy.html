@@ -266,3 +266,115 @@
   </script>
 </body>
 </html>
+<script>
+
+const originalText = document.getElementById("originalText");
+const revisedText = document.getElementById("revisedText");
+const compareBtn = document.getElementById("compareBtn");
+const clearBtn = document.getElementById("clearBtn");
+
+const summary = document.getElementById("summary");
+const changes = document.getElementById("changes");
+const categories = document.getElementById("categories");
+const effect = document.getElementById("effect");
+
+
+function renderList(target, items, emptyText) {
+
+  if (!items.length) {
+    target.innerHTML = `<div>${emptyText}</div>`;
+    return;
+  }
+
+  const ul = document.createElement("ul");
+
+  items.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    ul.appendChild(li);
+  });
+
+  target.innerHTML = "";
+  target.appendChild(ul);
+}
+
+
+function compareTexts() {
+
+  const original = originalText.value.trim();
+  const revised = revisedText.value.trim();
+
+  if (!original || !revised) {
+    alert("Paste text into both boxes first.");
+    return;
+  }
+
+  const originalLower = original.toLowerCase();
+  const revisedLower = revised.toLowerCase();
+
+  const foundChanges = [];
+  const foundCategories = [];
+
+
+  if (originalLower.includes("shall") && revisedLower.includes("may")) {
+    foundChanges.push(`Modality change: "shall" → "may"`);
+    foundCategories.push("Modality Shift");
+  }
+
+  if (originalLower.includes("must") && revisedLower.includes("may")) {
+    foundChanges.push(`Modality change: "must" → "may"`);
+    foundCategories.push("Modality Shift");
+  }
+
+  if (originalLower.includes("all") && revisedLower.includes("eligible")) {
+    foundChanges.push(`Scope change: "all" → "eligible"`);
+    foundCategories.push("Scope Change");
+  }
+
+  if (originalLower.includes("within 30 days") && revisedLower.includes("reasonable timeframe")) {
+    foundChanges.push(`Threshold change: "within 30 days" → "within a reasonable timeframe"`);
+    foundCategories.push("Threshold / Standard Shift");
+  }
+
+
+  if (original !== revised && foundChanges.length === 0) {
+    foundChanges.push("Text changed, but no structural rule matched yet.");
+  }
+
+
+  summary.textContent =
+    original === revised
+      ? "The two versions appear to say the same thing."
+      : "The two versions are different and may change how the text works.";
+
+
+  renderList(changes, foundChanges, "No detected changes yet.");
+
+  renderList(categories, [...new Set(foundCategories)], "No categories yet.");
+
+
+  effect.textContent =
+    foundCategories.length
+      ? "These wording changes may affect how the text is applied, interpreted, or enforced."
+      : "No clear operational effect detected yet.";
+
+}
+
+
+function clearTexts() {
+
+  originalText.value = "";
+  revisedText.value = "";
+
+  summary.innerHTML = "No comparison yet.";
+  changes.innerHTML = "No detected changes yet.";
+  categories.innerHTML = "No categories yet.";
+  effect.innerHTML = "No operational effect yet.";
+
+}
+
+
+compareBtn.addEventListener("click", compareTexts);
+clearBtn.addEventListener("click", clearTexts);
+
+</script>
