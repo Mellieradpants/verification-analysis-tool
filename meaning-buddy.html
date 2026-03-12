@@ -230,167 +230,365 @@
     </section>
   </main>
 
-  <script>
-    const inputText = document.getElementById("inputText");
-    const analyzeBtn = document.getElementById("analyzeBtn");
-    const clearBtn = document.getElementById("clearBtn");
+  <script><script>
+const inputText = document.getElementById("inputText");
+const analyzeBtn = document.getElementById("analyzeBtn");
+const clearBtn = document.getElementById("clearBtn");
 
-    const plainMeaning = document.getElementById("plainMeaning");
-    const actorResult = document.getElementById("actorResult");
-    const ruleStrengthResult = document.getElementById("ruleStrengthResult");
-    const scopeResult = document.getElementById("scopeResult");
-    const actionResult = document.getElementById("actionResult");
-    const timingResult = document.getElementById("timingResult");
-    const vagueResult = document.getElementById("vagueResult");
-    const effectResult = document.getElementById("effectResult");
+const plainMeaning = document.getElementById("plainMeaning");
+const effectResult = document.getElementById("effectResult");
 
-    function setText(target, text) {
-      target.textContent = text;
-      target.classList.remove("empty");
+const signalsContainer = document.querySelector(".signals");
+
+function setText(target, text) {
+  target.textContent = text;
+  target.classList.remove("empty");
+}
+
+function resetText(target, text) {
+  target.textContent = text;
+  target.classList.add("empty");
+}
+
+function makeSignalCard(title, meaning, value) {
+  const card = document.createElement("div");
+  card.className = "signal";
+
+  const h3 = document.createElement("h3");
+  h3.textContent = title;
+
+  const pMeaning = document.createElement("p");
+  pMeaning.className = "scopeMeaning";
+  pMeaning.textContent = meaning;
+
+  const pValue = document.createElement("p");
+  pValue.className = "signalValue";
+  pValue.textContent = value;
+
+  card.appendChild(h3);
+  card.appendChild(pMeaning);
+  card.appendChild(pValue);
+
+  return card;
+}
+
+function clearSignalCards() {
+  signalsContainer.innerHTML = "";
+}
+
+function detectSignals(text) {
+  const lower = text.toLowerCase();
+  const detected = [];
+
+  if (lower.includes("agency")) {
+    detected.push({
+      key: "actor",
+      title: "Actor / Authority",
+      meaning: "Who has the power or responsibility in the sentence.",
+      value: "agency"
+    });
+  } else if (lower.includes("court")) {
+    detected.push({
+      key: "actor",
+      title: "Actor / Authority",
+      meaning: "Who has the power or responsibility in the sentence.",
+      value: "court"
+    });
+  } else if (lower.includes("judge")) {
+    detected.push({
+      key: "actor",
+      title: "Actor / Authority",
+      meaning: "Who has the power or responsibility in the sentence.",
+      value: "judge"
+    });
+  } else if (lower.includes("department")) {
+    detected.push({
+      key: "actor",
+      title: "Actor / Authority",
+      meaning: "Who has the power or responsibility in the sentence.",
+      value: "department"
+    });
+  } else if (lower.includes("employer")) {
+    detected.push({
+      key: "actor",
+      title: "Actor / Authority",
+      meaning: "Who has the power or responsibility in the sentence.",
+      value: "employer"
+    });
+  } else if (lower.includes("company")) {
+    detected.push({
+      key: "actor",
+      title: "Actor / Authority",
+      meaning: "Who has the power or responsibility in the sentence.",
+      value: "company"
+    });
+  }
+
+  if (lower.includes("shall")) {
+    detected.push({
+      key: "rule",
+      title: "Rule Strength",
+      meaning: "Whether the action is required, optional, or recommended.",
+      value: "shall"
+    });
+  } else if (lower.includes("must")) {
+    detected.push({
+      key: "rule",
+      title: "Rule Strength",
+      meaning: "Whether the action is required, optional, or recommended.",
+      value: "must"
+    });
+  } else if (lower.includes("may")) {
+    detected.push({
+      key: "rule",
+      title: "Rule Strength",
+      meaning: "Whether the action is required, optional, or recommended.",
+      value: "may"
+    });
+  } else if (lower.includes("should")) {
+    detected.push({
+      key: "rule",
+      title: "Rule Strength",
+      meaning: "Whether the action is required, optional, or recommended.",
+      value: "should"
+    });
+  }
+
+  if (lower.includes("eligible employees")) {
+    detected.push({
+      key: "scope",
+      title: "Scope",
+      meaning: "Who or what the rule applies to.",
+      value: "eligible employees"
+    });
+  } else if (lower.includes("all employees")) {
+    detected.push({
+      key: "scope",
+      title: "Scope",
+      meaning: "Who or what the rule applies to.",
+      value: "all employees"
+    });
+  } else if (lower.includes("eligible applicants")) {
+    detected.push({
+      key: "scope",
+      title: "Scope",
+      meaning: "Who or what the rule applies to.",
+      value: "eligible applicants"
+    });
+  } else if (lower.includes("all applicants")) {
+    detected.push({
+      key: "scope",
+      title: "Scope",
+      meaning: "Who or what the rule applies to.",
+      value: "all applicants"
+    });
+  } else if (lower.includes("individuals")) {
+    detected.push({
+      key: "scope",
+      title: "Scope",
+      meaning: "Who or what the rule applies to.",
+      value: "individuals"
+    });
+  }
+
+  if (lower.includes("provide notice")) {
+    detected.push({
+      key: "action",
+      title: "Action",
+      meaning: "What action the text is describing.",
+      value: "provide notice"
+    });
+  } else if (lower.includes("appear")) {
+    detected.push({
+      key: "action",
+      title: "Action",
+      meaning: "What action the text is describing.",
+      value: "appear"
+    });
+  } else if (lower.includes("submit")) {
+    detected.push({
+      key: "action",
+      title: "Action",
+      meaning: "What action the text is describing.",
+      value: "submit"
+    });
+  } else if (lower.includes("report")) {
+    detected.push({
+      key: "action",
+      title: "Action",
+      meaning: "What action the text is describing.",
+      value: "report"
+    });
+  } else if (lower.includes("maintain")) {
+    detected.push({
+      key: "action",
+      title: "Action",
+      meaning: "What action the text is describing.",
+      value: "maintain"
+    });
+  } else if (lower.includes("notify")) {
+    detected.push({
+      key: "action",
+      title: "Action",
+      meaning: "What action the text is describing.",
+      value: "notify"
+    });
+  }
+
+  if (lower.includes("within 30 days")) {
+    detected.push({
+      key: "timing",
+      title: "Timing / Standard",
+      meaning: "The deadline, threshold, or level of flexibility.",
+      value: "within 30 days"
+    });
+  } else if (lower.includes("within 60 days")) {
+    detected.push({
+      key: "timing",
+      title: "Timing / Standard",
+      meaning: "The deadline, threshold, or level of flexibility.",
+      value: "within 60 days"
+    });
+  } else if (lower.includes("reasonable timeframe")) {
+    detected.push({
+      key: "timing",
+      title: "Timing / Standard",
+      meaning: "The deadline, threshold, or level of flexibility.",
+      value: "reasonable timeframe"
+    });
+  } else if (lower.includes("reasonable time")) {
+    detected.push({
+      key: "timing",
+      title: "Timing / Standard",
+      meaning: "The deadline, threshold, or level of flexibility.",
+      value: "reasonable time"
+    });
+  } else if (lower.includes("immediately")) {
+    detected.push({
+      key: "timing",
+      title: "Timing / Standard",
+      meaning: "The deadline, threshold, or level of flexibility.",
+      value: "immediately"
+    });
+  }
+
+  const vagueTerms = [];
+  if (lower.includes("reasonable")) vagueTerms.push("reasonable");
+  if (lower.includes("appropriate")) vagueTerms.push("appropriate");
+  if (lower.includes("as determined by")) vagueTerms.push("as determined by");
+  if (lower.includes("where applicable")) vagueTerms.push("where applicable");
+  if (lower.includes("may")) vagueTerms.push("may");
+
+  if (vagueTerms.length) {
+    detected.push({
+      key: "vague",
+      title: "Vague / Flexible Language",
+      meaning: "Words that leave room for interpretation or discretion.",
+      value: vagueTerms.join(", ")
+    });
+  }
+
+  return detected;
+}
+
+function buildPlainMeaning(signals) {
+  const map = Object.fromEntries(signals.map(s => [s.key, s.value]));
+  const parts = [];
+
+  if (map.actor) parts.push(capitalize(map.actor));
+  if (map.rule) {
+    if (map.rule === "shall" || map.rule === "must") {
+      parts.push("is required to");
+    } else if (map.rule === "may") {
+      parts.push("may");
+    } else if (map.rule === "should") {
+      parts.push("should");
     }
+  }
+  if (map.action) parts.push(map.action);
+  if (map.scope) parts.push("for " + map.scope);
 
-    function resetField(target, text) {
-      target.textContent = text;
-      target.classList.add("empty");
-    }
+  let sentence = parts.join(" ").replace(/\s+/g, " ").trim();
 
-    function analyzeLanguage() {
-      const text = inputText.value.trim();
-      const lower = text.toLowerCase();
+  if (map.timing) {
+    sentence += ". Timing: " + map.timing;
+  }
 
-      if (!text) {
-        alert("Paste text first.");
-        return;
-      }
+  if (!sentence) {
+    return "No plain meaning generated.";
+  }
 
-      let actor = "Not clearly identified.";
-      let ruleStrength = "Not clearly identified.";
-      let scope = "Not clearly identified.";
-      let action = "Not clearly identified.";
-      let timing = "No timing or standard detected.";
-      let vague = "No obvious flexible wording detected.";
+  return sentence.endsWith(".") ? sentence : sentence + ".";
+}
 
-      if (lower.includes("agency")) {
-        actor = "The agency has the authority or responsibility.";
-      } else if (lower.includes("court")) {
-        actor = "The court has the authority or responsibility.";
-      } else if (lower.includes("judge")) {
-        actor = "The judge has the authority or responsibility.";
-      } else if (lower.includes("company")) {
-        actor = "The company has the authority or responsibility.";
-      } else if (lower.includes("employer")) {
-        actor = "The employer has the authority or responsibility.";
-      } else if (lower.includes("department")) {
-        actor = "The department has the authority or responsibility.";
-      } else if (lower.includes("applicant")) {
-        actor = "The applicant is one of the people affected by the text.";
-      } else if (lower.includes("employee")) {
-        actor = "The employee is one of the people affected by the text.";
-      }
+function buildOperationalEffect(signals) {
+  const map = Object.fromEntries(signals.map(s => [s.key, s.value]));
+  const parts = [];
 
-      if (lower.includes("shall") || lower.includes("must")) {
-        ruleStrength = "The action is required.";
-      } else if (lower.includes("may") || lower.includes("can")) {
-        ruleStrength = "The action is optional.";
-      } else if (lower.includes("should")) {
-        ruleStrength = "The action is recommended.";
-      }
+  if (map.rule === "shall" || map.rule === "must") {
+    parts.push("Creates a required action");
+  } else if (map.rule === "may") {
+    parts.push("Creates an optional action");
+  } else if (map.rule === "should") {
+    parts.push("Creates a recommended action");
+  }
 
-      if (lower.includes("all employees")) {
-        scope = "This applies to all employees.";
-      } else if (lower.includes("eligible employees")) {
-        scope = "This applies only to eligible employees.";
-      } else if (lower.includes("all applicants")) {
-        scope = "This applies to all applicants.";
-      } else if (lower.includes("eligible applicants")) {
-        scope = "This applies only to eligible applicants.";
-      } else if (lower.includes("all individuals")) {
-        scope = "This applies to all individuals.";
-      } else if (lower.includes("individuals")) {
-        scope = "This applies to the individuals named in the text.";
-      }
+  if (map.scope) {
+    parts.push("Applies to " + map.scope);
+  }
 
-      if (lower.includes("provide notice")) {
-        action = "The action is to provide notice.";
-      } else if (lower.includes("appear")) {
-        action = "The action is to appear.";
-      } else if (lower.includes("submit")) {
-        action = "The action is to submit something.";
-      } else if (lower.includes("report")) {
-        action = "The action is to report information.";
-      } else if (lower.includes("maintain")) {
-        action = "The action is to maintain something.";
-      } else if (lower.includes("notify")) {
-        action = "The action is to notify someone.";
-      }
+  if (map.timing) {
+    parts.push("Uses timing standard: " + map.timing);
+  }
 
-      if (lower.includes("within 30 days")) {
-        timing = "There is a fixed 30-day deadline.";
-      } else if (lower.includes("within 60 days")) {
-        timing = "There is a fixed 60-day deadline.";
-      } else if (lower.includes("immediately")) {
-        timing = "The action must happen right away.";
-      } else if (lower.includes("reasonable timeframe")) {
-        timing = "The timing is flexible, not fixed.";
-      } else if (lower.includes("reasonable time")) {
-        timing = "The timing is flexible, not fixed.";
-      }
+  if (map.vague) {
+    parts.push("Includes flexible wording");
+  }
 
-      const vagueTerms = [];
-      if (lower.includes("reasonable")) vagueTerms.push("reasonable");
-      if (lower.includes("appropriate")) vagueTerms.push("appropriate");
-      if (lower.includes("as determined by")) vagueTerms.push("as determined by");
-      if (lower.includes("where applicable")) vagueTerms.push("where applicable");
-      if (lower.includes("may")) vagueTerms.push("may");
+  if (!parts.length) {
+    return "No operational effect extracted.";
+  }
 
-      if (vagueTerms.length) {
-        vague = "Flexible or vague wording detected: " + vagueTerms.join(", ") + ".";
-      }
+  return parts.join(". ") + ".";
+}
 
-      let plain = "This text sets out who can act, how strong the rule is, who it applies to, and whether the timing is fixed or flexible.";
-      let effect = "This wording affects who has power, who is covered, and how strictly the action must happen.";
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
-      if (
-        lower.includes("agency") &&
-        lower.includes("may") &&
-        lower.includes("eligible employees") &&
-        lower.includes("reasonable timeframe")
-      ) {
-        plain = "The agency is allowed, but not required, to notify certain employees, and the timing is flexible rather than fixed.";
-        effect = "The action is optional, applies only to a subset of employees, and does not have a strict deadline.";
-      } else if (
-        lower.includes("shall") &&
-        lower.includes("all employees") &&
-        lower.includes("within 30 days")
-      ) {
-        plain = "The action is required, it applies to all employees, and it must happen within 30 days.";
-        effect = "This creates a mandatory duty, applies broadly, and sets a fixed deadline.";
-      }
+function analyzeLanguage() {
+  const text = inputText.value.trim();
 
-      setText(plainMeaning, plain);
-      setText(actorResult, actor);
-      setText(ruleStrengthResult, ruleStrength);
-      setText(scopeResult, scope);
-      setText(actionResult, action);
-      setText(timingResult, timing);
-      setText(vagueResult, vague);
-      setText(effectResult, effect);
-    }
+  if (!text) {
+    alert("Paste text first.");
+    return;
+  }
 
-    function clearResults() {
-      inputText.value = "";
-      resetField(plainMeaning, "The explanation will appear here.");
-      resetField(actorResult, "No signal yet.");
-      resetField(ruleStrengthResult, "No signal yet.");
-      resetField(scopeResult, "No signal yet.");
-      resetField(actionResult, "No signal yet.");
-      resetField(timingResult, "No signal yet.");
-      resetField(vagueResult, "No signal yet.");
-      resetField(effectResult, "Operational effect will appear here.");
-    }
+  const signals = detectSignals(text);
 
-    analyzeBtn.addEventListener("click", analyzeLanguage);
-    clearBtn.addEventListener("click", clearResults);
+  clearSignalCards();
+
+  signals.forEach(signal => {
+    const card = makeSignalCard(signal.title, signal.meaning, signal.value);
+    signalsContainer.appendChild(card);
+  });
+
+  setText(plainMeaning, buildPlainMeaning(signals));
+  setText(effectResult, buildOperationalEffect(signals));
+}
+
+function clearResults() {
+  inputText.value = "";
+  resetText(plainMeaning, "The explanation will appear here.");
+  resetText(effectResult, "Operational effect will appear here.");
+  clearSignalCards();
+}
+
+analyzeBtn.addEventListener("click", analyzeLanguage);
+clearBtn.addEventListener("click", clearResults);
+</script>
+    
+    
   </script>
 </body>
 </html>
