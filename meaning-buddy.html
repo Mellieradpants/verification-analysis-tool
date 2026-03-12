@@ -1,1 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeaningBuddy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+      color: #1f2933;
+    }
 
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #52606d;
+      margin-bottom: 24px;
+      max-width: 760px;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #d9e2ec;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      padding: 12px;
+      border: 1px solid #d9e2ec;
+      border-radius: 10px;
+      resize: vertical;
+      font: inherit;
+      box-sizing: border-box;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #1f2933;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .result-box {
+      background: white;
+      border: 1px solid #d9e2ec;
+      border-radius: 12px;
+      padding: 16px;
+      min-height: 140px;
+    }
+
+    .result-box h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .empty {
+      color: #52606d;
+      font-style: italic;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    @media (max-width: 800px) {
+      .input-grid,
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>MeaningBuddy</h1>
+    <p class="subtitle">
+      Compare two versions of text and show what changed in plain language.
+    </p>
+
+    <section class="panel">
+      <div class="input-grid">
+        <div>
+          <label for="originalText">Original Text</label>
+          <textarea id="originalText" placeholder="Paste the earlier version here..."></textarea>
+        </div>
+
+        <div>
+          <label for="revisedText">Revised Text</label>
+          <textarea id="revisedText" placeholder="Paste the updated version here..."></textarea>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="primary" id="compareBtn">Compare</button>
+        <button class="secondary" id="clearBtn">Clear</button>
+      </div>
+    </section>
+
+    <section class="results-grid">
+      <div class="result-box full">
+        <h3>Summary</h3>
+        <div id="summary" class="empty">No comparison yet.</div>
+      </div>
+
+      <div class="result-box">
+        <h3>Detected Changes</h3>
+        <div id="changes" class="empty">No detected changes yet.</div>
+      </div>
+
+      <div class="result-box">
+        <h3>Structural Categories</h3>
+        <div id="categories" class="empty">No categories yet.</div>
+      </div>
+
+      <div class="result-box full">
+        <h3>Operational Effect</h3>
+        <div id="effect" class="empty">No operational effect yet.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const originalText = document.getElementById("originalText");
+    const revisedText = document.getElementById("revisedText");
+    const compareBtn = document.getElementById("compareBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    const summary = document.getElementById("summary");
+    const changes = document.getElementById("changes");
+    const categories = document.getElementById("categories");
+    const effect = document.getElementById("effect");
+
+    function renderList(target, items) {
+      if (!items.length) {
+        target.innerHTML = '<div class="empty">None.</div>';
+        return;
+      }
+
+      const ul = document.createElement("ul");
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+
+      target.innerHTML = "";
+      target.appendChild(ul);
+    }
+
+    compareBtn.addEventListener("click", () => {
+      const original = originalText.value.trim();
+      const revised = revisedText.value.trim();
+
+      if (!original || !revised) {
+        alert("Paste text into both boxes first.");
+        return;
+      }
+
+      const foundChanges = [];
+      const foundCategories = [];
+
+      const originalLower = original.toLowerCase();
+      const revisedLower = revised.toLowerCase();
+
+      if (originalLower.includes("shall") && revisedLower.includes("may")) {
+        foundChanges.push("Changed 'shall' to 'may'");
+        foundCategories.push("Modality Shift");
+      }
+
+      if (originalLower.includes("must") && revisedLower.includes("may")) {
+        foundChanges.push("Changed 'must' to 'may'");
+        foundCategories.push("Modality Shift");
+      }
+
+      if (originalLower.includes("all") && revisedLower.includes("eligible")) {
+        foundChanges.push("Changed 'all' to 'eligible'");
+        foundCategories.push("Scope Change");
+      }
+
+      if (originalLower.includes("30 days") && revisedLower.includes("reasonable timeframe")) {
+        foundChanges.push("Changed 'within 30 days' to 'within a reasonable timeframe'");
+        foundCategories.push("Threshold / Standard Shift");
+      }
+
+      if (!foundChanges.length && original !== revised) {
+        foundChanges.push("Text changed, but no rule-based category matched yet.");
+      }
+
+      summary.textContent =
+        original === revised
+          ? "The two versions appear to be the same."
+          : "The two versions are different and may contain structural language changes.";
+
+      renderList(changes, foundChanges);
+      renderList(categories, [...new Set(foundCategories)]);
+
+      effect.textContent =
+        foundCategories.length
+          ? "The wording changes may affect how the text is applied, interpreted, or enforced."
+          : "No structured operational effect detected yet.";
+    });
+
+    clearBtn.addEventListener("click", () => {
+      originalText.value = "";
+      revisedText.value = "";
+      summary.innerHTML = '<div class="empty">No comparison yet.</div>';
+      changes.innerHTML = '<div class="empty">No detected changes yet.</div>';
+      categories.innerHTML = '<div class="empty">No categories yet.</div>';
+      effect.innerHTML = '<div class="empty">No operational effect yet.</div>';
+    });
+  </script>
+</body>
+</html>
