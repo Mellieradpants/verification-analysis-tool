@@ -1,6 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><style>
+
+.resultBox{
+background:#f4f6f8;
+padding:16px;
+border-radius:8px;
+margin-bottom:20px;
+}
+
+.signals{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:16px;
+}
+
+.signal{
+background:white;
+border:1px solid #ddd;
+border-radius:8px;
+padding:14px;
+}
+
+.scopeMeaning{
+font-size:13px;
+color:#666;
+margin-bottom:8px;
+}
+
+</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MeaningBuddy</title>
@@ -48,7 +76,59 @@
       margin-bottom: 8px;
     }
 
-    textarea {
+    textarea {<div id="results" style="margin-top:30px">
+
+<h2>Plain Meaning</h2>
+<div id="plainMeaning" class="resultBox">
+The explanation will appear here.
+</div>
+
+<h2>Language Signals</h2>
+
+<div class="signals">
+
+<div class="signal">
+<h3>Actor</h3>
+<p class="scopeMeaning">Who has the authority or responsibility.</p>
+<p id="actorResult"></p>
+</div>
+
+<div class="signal">
+<h3>Rule Strength</h3>
+<p class="scopeMeaning">Whether the action is required or optional.</p>
+<p id="ruleStrengthResult"></p>
+</div>
+
+<div class="signal">
+<h3>Scope</h3>
+<p class="scopeMeaning">Who or what the rule applies to.</p>
+<p id="scopeResult"></p>
+</div>
+
+<div class="signal">
+<h3>Action</h3>
+<p class="scopeMeaning">What the sentence tells someone to do.</p>
+<p id="actionResult"></p>
+</div>
+
+<div class="signal">
+<h3>Timing</h3>
+<p class="scopeMeaning">Deadline or level of flexibility.</p>
+<p id="timingResult"></p>
+</div>
+
+<div class="signal">
+<h3>Vague Language</h3>
+<p class="scopeMeaning">Words that allow interpretation or discretion.</p>
+<p id="vagueResult"></p>
+</div>
+
+</div>
+
+<h2>Operational Effect</h2>
+<div id="effectResult" class="resultBox"></div>
+
+</div>
       width: 100%;
       min-height: 220px;
       padding: 12px;
